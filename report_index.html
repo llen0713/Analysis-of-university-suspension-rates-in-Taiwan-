@@ -1,21 +1,40 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>台灣大專校院休學分析報告</title>
+  <title>臺灣大專校院休學分析報告</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg:       #0d1117;
-      --surface:  #161b22;
-      --border:   rgba(255,255,255,0.08);
-      --text:     #e6edf3;
-      --muted:    #8b949e;
-      --accent:   #3b82f6;
-      --accent2:  #60a5fa;
+    :root, [data-theme="dark"] {
+      --bg:            #0d1117;
+      --surface:       #161b22;
+      --border:        rgba(255,255,255,0.08);
+      --text:          #e6edf3;
+      --muted:         #8b949e;
+      --accent:        #3b82f6;
+      --accent2:       #60a5fa;
+      --link:          #93c5fd;
+      --nav-bg:        rgba(13,17,23,0.88);
+      --hover-surface: #1c2430;
+      --toggle-bg:     rgba(255,255,255,0.08);
+      --toggle-color:  #e6edf3;
+    }
+    [data-theme="light"] {
+      --bg:            #f6f8fa;
+      --surface:       #ffffff;
+      --border:        rgba(0,0,0,0.10);
+      --text:          #1f2328;
+      --muted:         #57606a;
+      --accent:        #0969da;
+      --accent2:       #0969da;
+      --link:          #0550ae;
+      --nav-bg:        rgba(246,248,250,0.92);
+      --hover-surface: #eaeef2;
+      --toggle-bg:     rgba(0,0,0,0.07);
+      --toggle-color:  #1f2328;
     }
 
     html { scroll-behavior: smooth; }
@@ -31,7 +50,7 @@
     /* ── NAV ── */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(13,17,23,0.85);
+      background: var(--nav-bg);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 2rem;
@@ -45,6 +64,18 @@
       transition: color .2s;
     }
     nav .nav-links a:hover { color: var(--text); }
+    #theme-toggle {
+      background: var(--toggle-bg);
+      border: 1px solid var(--border);
+      color: var(--toggle-color);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background .2s;
+      flex-shrink: 0;
+    }
+    #theme-toggle:hover { background: var(--hover-surface); }
 
     /* ── HERO ── */
     .hero {
@@ -54,11 +85,17 @@
       position: relative;
       overflow: hidden;
     }
+    [data-theme="light"] .hero {
+      background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 40%, #eff6ff 100%);
+    }
     .hero::before {
       content: "";
       position: absolute; inset: 0;
       background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59,130,246,0.15) 0%, transparent 70%);
       pointer-events: none;
+    }
+    [data-theme="light"] .hero::before {
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(9,105,218,0.12) 0%, transparent 70%);
     }
     .hero-badge {
       display: inline-block;
@@ -77,6 +114,10 @@
       line-height: 1.25;
       margin-bottom: .75rem;
       background: linear-gradient(90deg, #e6edf3, #93c5fd);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    [data-theme="light"] .hero h1 {
+      background: linear-gradient(90deg, #1f2328, #0969da);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .hero .subtitle {
@@ -105,7 +146,7 @@
       text-align: center;
       transition: background .2s;
     }
-    .stat-item:hover { background: #1c2430; }
+    .stat-item:hover { background: var(--hover-surface); }
     .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--accent2); }
     .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
 
@@ -292,12 +333,73 @@
       color: var(--muted);
       border-top: 1px solid var(--border);
     }
+
+    /* ── LINKS ── */
+    a { color: var(--link); }
+    a:hover { opacity: .8; }
+    .nav-links a, .chart-card, .file-item { color: inherit; }
+    .file-item:hover { color: var(--accent2); }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); opacity: 1; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      /* Nav：隱藏錨點連結，保留品牌 + 切換鈕 */
+      nav {
+        padding: 0 1rem;
+        gap: 1rem;
+      }
+      nav .nav-links { display: none; }
+      nav .brand { font-size: 0.875rem; }
+
+      /* Hero */
+      .hero { padding: 3rem 1.25rem 2.5rem; }
+      .hero h1 { font-size: 1.6rem; }
+      .hero .subtitle { font-size: 0.9rem; }
+      .stats-strip { border-radius: 10px; }
+      .stat-item { min-width: 90px; padding: 1rem; }
+      .stat-value { font-size: 1.4rem; }
+
+      /* Sections */
+      section { padding: 2.5rem 1.25rem; }
+      .section-title { font-size: 1.15rem; }
+
+      /* 所有卡片格線：強制單欄 */
+      .research-grid,
+      .chart-grid,
+      .answers-grid,
+      .file-list {
+        grid-template-columns: 1fr;
+      }
+
+      /* 研究結論卡片內數字列允許換行 */
+      .ans-stats { gap: .375rem; }
+      .ans-stat { min-width: 75px; }
+
+      /* 表格：水平捲動 */
+      .data-table-wrap { border-radius: 8px; }
+      table { font-size: 0.8rem; }
+      thead th, tbody td { padding: 8px 12px; }
+
+      /* 檔案項目：圖示縮小 */
+      .file-icon { font-size: 1rem; }
+      .file-name { font-size: 0.8rem; }
+
+      /* Footer */
+      footer { padding: 2rem 1.25rem; font-size: 0.75rem; }
+    }
+
+    @media (max-width: 400px) {
+      .hero h1 { font-size: 1.35rem; }
+      .stat-item { min-width: 70px; padding: .75rem .5rem; }
+      .stat-value { font-size: 1.2rem; }
+    }
   </style>
 </head>
 <body>
 
 <nav>
-  <span class="brand">台灣大專校院休學分析</span>
+  <span class="brand">臺灣大專校院休學分析</span>
   <div class="nav-links">
     <a href="#overview">資料概況</a>
     <a href="#questions">研究問題</a>
@@ -305,10 +407,11 @@
     <a href="#answers">研究結論</a>
     <a href="#files">資料下載</a>
   </div>
+  <button id="theme-toggle" title="切換深淺模式">☀️</button>
 </nav>
 
 <div class="hero">
-  <h1>台灣大專校院<br>休學率分析報告</h1>
+  <h1>臺灣大專校院<br>休學率分析報告</h1>
   <p class="subtitle">Taiwan University Leave-of-Absence Analysis</p>
   <p class="author">作者：李冠廷</p>
   <div class="stats-strip">
@@ -337,7 +440,7 @@
     <table>
       <thead><tr><th>項目</th><th>內容</th><th>狀態</th></tr></thead>
       <tbody>
-        <tr><td>資料來源</td><td>教育部統計處 stats.moe.gov.tw 及 udb.moe.edu.tw</td><td><span class="pill pill-ok">已取得</span></td></tr>
+        <tr><td>資料來源</td><td>教育部統計處 <a href="https://stats.moe.gov.tw" target="_blank" rel="noopener">stats.moe.gov.tw</a> 及 <a href="https://udb.moe.edu.tw" target="_blank" rel="noopener">udb.moe.edu.tw</a></td><td><span class="pill pill-ok">已取得</span></td></tr>
         <tr><td>分析學校數</td><td>165 所大專院校</td><td><span class="pill pill-ok">完整</span></td></tr>
         <tr><td>分析學年度</td><td>111–113 學年（3 個學年）</td><td><span class="pill pill-ok">完整</span></td></tr>
         <tr><td>休學率資料</td><td>111–113 學年，校別休學人數與在學人數</td>
@@ -403,7 +506,7 @@
         <a class="chart-card" href="city_suspend_rate.html" target="_blank">
           <div class="card-tag" style="background:#f59e0b22; color:#f59e0b;">市</div>
           <div class="card-title">縣市熱力圖</div>
-          <div class="card-desc">全台各縣市大專院校的平均休學率排行</div>
+          <div class="card-desc">全臺各縣市大專院校的平均休學率排行</div>
           <div class="card-cta">開啟互動圖表 →</div>
         </a>
         <a class="chart-card" href="trend_national.html" target="_blank">
@@ -508,11 +611,49 @@
       <div><div class="file-name">ML_model_comparison.csv</div><div class="file-desc">RF vs XGBoost 模型效能比較</div></div>
     </a>
   </div>
+
+  <p class="section-subtitle" style="margin-top:2rem;">原始資料來源（教育部開放資料）</p>
+  <div class="file-list">
+    <a class="file-item" href="https://stats.moe.gov.tw/files/opendata/106-112_students.csv" target="_blank" rel="noopener">
+      <span class="file-icon">🎓</span>
+      <div><div class="file-name">students_106_112.csv</div><div class="file-desc">大專院校各校科系別學生數 106–112 學年（stats.moe.gov.tw）</div></div>
+    </a>
+    <a class="file-item" href="https://stats.moe.gov.tw/files/opendata/students.csv" target="_blank" rel="noopener">
+      <span class="file-icon">🎓</span>
+      <div><div class="file-name">students_latest.csv</div><div class="file-desc">大專院校各校科系別學生數（最新學年度）（stats.moe.gov.tw）</div></div>
+    </a>
+    <a class="file-item" href="https://udb.moe.edu.tw" target="_blank" rel="noopener">
+      <span class="file-icon">📂</span>
+      <div><div class="file-name">休學 ／ 教師資料</div><div class="file-desc">休學人數、各系所及各校專任教師數（udb.moe.edu.tw）</div></div>
+    </a>
+  </div>
 </section>
 
 <footer>
-  <p>資料來源：教育部統計處 ／ stats.moe.gov.tw ／ udb.moe.edu.tw</p>
+  <p>資料來源：教育部統計處 ／
+    <a href="https://stats.moe.gov.tw" target="_blank" rel="noopener">stats.moe.gov.tw</a> ／
+    <a href="https://udb.moe.edu.tw" target="_blank" rel="noopener">udb.moe.edu.tw</a>
+  </p>
 </footer>
+
+<script>
+(function() {
+  var html = document.documentElement;
+  var btn  = document.getElementById('theme-toggle');
+  var stored = localStorage.getItem('theme');
+  if (stored) { html.setAttribute('data-theme', stored); }
+  function sync() {
+    btn.textContent = html.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+  }
+  sync();
+  btn.addEventListener('click', function() {
+    var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    sync();
+  });
+})();
+</script>
 
 </body>
 </html>
