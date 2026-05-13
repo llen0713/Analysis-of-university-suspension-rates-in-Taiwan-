@@ -343,6 +343,36 @@
     footer a:hover { color: var(--text); opacity: 1; }
 
     /* ── RESPONSIVE ── */
+    /* ── BONUS / NTNU ── */
+    .bonus-header {
+      display: flex; align-items: center; gap: .75rem; margin-bottom: .75rem;
+    }
+    .bonus-badge {
+      display: inline-block;
+      padding: 3px 14px;
+      background: linear-gradient(90deg, #f59e0b, #ef4444);
+      color: #fff; border-radius: 999px;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: .05em;
+    }
+    .ntnu-info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: .75rem; margin-bottom: .5rem;
+    }
+    .ntnu-info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 1.25rem;
+      text-align: center;
+      transition: border-color .2s, transform .2s;
+    }
+    .ntnu-info-card:hover {
+      border-color: rgba(59,130,246,0.4); transform: translateY(-2px);
+    }
+    .ntnu-info-val { font-size: 1.15rem; font-weight: 700; margin-bottom: 4px; }
+    .ntnu-info-lbl { font-size: 0.72rem; color: var(--muted); }
+
     @media (max-width: 640px) {
       /* Nav：隱藏錨點連結，保留品牌 + 切換鈕 */
       nav {
@@ -371,6 +401,8 @@
       .file-list {
         grid-template-columns: 1fr;
       }
+
+      .ntnu-info-grid { grid-template-columns: repeat(2, 1fr); }
 
       /* 研究結論卡片內數字列允許換行 */
       .ans-stats { gap: .375rem; }
@@ -405,6 +437,7 @@
     <a href="#questions">研究問題</a>
     <a href="#charts">互動圖表</a>
     <a href="#answers">研究結論</a>
+    <a href="#bonus">Bonus：師大</a>
     <a href="#files">資料下載</a>
   </div>
   <button id="theme-toggle" title="切換深淺模式">☀️</button>
@@ -576,6 +609,23 @@
       <p>單因子 ANOVA 顯示各地理區域間的休學率存在顯著差異（F = 2.479, p = 0.044）。休學率最高為東部（0.098），最低為中部（0.072）。</p>
       <p class="ans-inference">可能原因：東部院校數量少、外縣市學生比例高，交通不便與生活適應困難可能提高休學意願；中部地區院校多位於都會周邊，生活機能完善，學生就讀穩定性相對較高。</p>
     </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="bonus">
+  <div class="bonus-header">
+    <span class="bonus-badge">★ Bonus</span>
+    <span style="font-size:0.875rem; color:var(--muted);">個案深度分析</span>
+  </div>
+  <p class="section-title">國立臺灣師範大學 — 個案分析</p>
+  <p class="section-subtitle">從全國資料中單獨抽取師大各學年數據，與全國平均及公立院校進行對照比較</p>
+  <div class="ntnu-info-grid">
+    <div class="ntnu-info-card"><div class="ntnu-info-val" style="color:var(--text);">國立臺灣師範大學</div><div class="ntnu-info-lbl">學校名稱</div></div><div class="ntnu-info-card"><div class="ntnu-info-val" style="color:var(--muted);">臺北市</div><div class="ntnu-info-lbl">所在縣市</div></div><div class="ntnu-info-card"><div class="ntnu-info-val" style="color:var(--muted);">公立</div><div class="ntnu-info-lbl">學校性質</div></div><div class="ntnu-info-card"><div class="ntnu-info-val" style="color:#60a5fa;">16,808 人</div><div class="ntnu-info-lbl">在校生數（114 學年）</div></div><div class="ntnu-info-card"><div class="ntnu-info-val" style="color:#f87171;">0.122</div><div class="ntnu-info-lbl">111–113 平均休學率</div></div><div class="ntnu-info-card"><div class="ntnu-info-val" style="color:#fbbf24;">20.4</div><div class="ntnu-info-lbl">最新學年生師比</div></div><div class="ntnu-info-card"><div class="ntnu-info-val" style="color:#34d399;">42 / 47</div><div class="ntnu-info-lbl">公立院校排名（低→高）</div></div>
+  </div>
+  <div class="chart-grid" style="margin-top:1.5rem;">
+    <a class="chart-card" href="NTNU_suspend_trend.html" target="_blank"><div class="card-tag" style="background:#3b82f622; color:#3b82f6;">趨</div><div class="card-title">師大休學率趨勢</div><div class="card-desc">111–113學年師大休學率與全國公立平均、全國平均對照</div><div class="card-cta">開啟互動圖表 →</div></a><a class="chart-card" href="NTNU_rank_public.html" target="_blank"><div class="card-tag" style="background:#8b5cf622; color:#8b5cf6;">排</div><div class="card-title">公立院校排名</div><div class="card-desc">師大在全國公立院校中的休學率排名位置</div><div class="card-cta">開啟互動圖表 →</div></a>
   </div>
 </section>
 
